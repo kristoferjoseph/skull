@@ -8,7 +8,6 @@
     //  using the existing one or creating a new object
     var Skull = global.Skull = global.Skull || {};
 
-    ////OBSERVER
     /*
      *   EventMap is used to dispatch application wide events
      */

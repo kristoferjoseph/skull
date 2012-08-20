@@ -28,7 +28,7 @@
             } else if (this.reset) {
                 this.reset(state);
             } else {
-                throw new Error("You need to override setMemento to set your state");
+                throw new Error("You need to override setMemento to supply a way to set your state");
             }
             return this;
         },

@@ -8,6 +8,9 @@
     //  using the existing one or creating a new object
     var Skull = global.Skull = global.Skull || {};
 
+    /*
+    *   Memento object is api support for creating Mementos for storing state
+    */
     var Memento = Skull.Memento = function(options) {
         var options    = options || {},
             originator = {},

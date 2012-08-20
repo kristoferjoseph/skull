@@ -8,6 +8,9 @@
     //  using the existing one or creating a new object
     var Skull = global.Skull = global.Skull || {};
 
+    /*
+    *   CareTaker is used to manage the stacks of state
+    */
     var CareTaker = Skull.CareTaker = function() {};
     _.extend(CareTaker.prototype, {
         undoStack: [],
