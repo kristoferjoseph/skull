@@ -63,6 +63,6 @@ test('Should be able to override store method', 1, function() {
     });
 
     var originator = new Originator();
-    originator.store({});
+    originator.store();
 });
 

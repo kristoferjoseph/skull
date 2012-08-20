@@ -1,8 +1,7 @@
 module('Command', {
     setup: function() {
         // setup for Command
-        var Command = Skull.Command.extend({});
-        this.command = new Command();
+        this.command = new Skull.Command();
     },
     teardown: function() {
         //teardown for Command
