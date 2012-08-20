@@ -14,6 +14,7 @@
         redoStack: [],
         addMemento: function(memento) {
             this.undoStack.push(memento);
+            return this;
         },
         undo: function() {
             if (this.undoStack.length) {
@@ -25,6 +26,7 @@
                     originator.setMemento(memento);
                 }
             }
+            return this;
         },
         redo: function() {
             if (this.redoStack.length) {
@@ -36,6 +38,7 @@
                     originator.setMemento(memento);
                 }
             }
+            return this;
         }
     });
 

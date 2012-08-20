@@ -12,6 +12,7 @@
     //Set the version number
     Skull.VERSION = '0.0.1-alpha';
 
+    //Hijack Backbone's extend method to use with Skull objects
     Skull.extend = Backbone.Model.extend;
 
 })(this);

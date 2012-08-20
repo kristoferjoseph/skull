@@ -1,4 +1,3 @@
-
 module('Command', {
     setup: function() {
         // setup for Command
@@ -30,6 +29,18 @@ test('addCommand should add a command', 1, function() {
     };
 
     this.commandMap.addCommand('fake:event', cmd);
+    Skull.EventMap.publish('fake:event');
+    Skull.EventMap.unsubscribe();
+});
+
+test('Should be able to chain CommandMap functions', 1, function() {
+    var cmd = {
+        execute: function() {
+            ok(true);
+        }
+    };
+
+    this.commandMap.removeCommand('lame:sauce').addCommand('fake:event', cmd);
     Skull.EventMap.publish('fake:event');
     Skull.EventMap.unsubscribe();
 });

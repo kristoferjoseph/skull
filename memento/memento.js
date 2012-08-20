@@ -21,12 +21,14 @@
         },
         setOriginator: function(originator) {
             this.originator = originator;
+            return this;
         },
         getState: function() {
             return this.state;
         },
         setState: function(state) {
             this.state = state;
+            return this;
         }
     });
 

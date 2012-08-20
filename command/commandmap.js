@@ -23,9 +23,11 @@
                     } else {
                         throw new Error("You must supply an execute method");
                     }
+                    return this;
                 },
                 removeCommand: function(e, cmd) {
                     eventMap.unsubscribe(e, cmd);
+                    return this;
                 }
             };
         }();

@@ -13,7 +13,9 @@
      */
     var Command = Skull.Command = function() {};
     _.extend(Command.prototype, {
-        execute: function() {}
+        execute: function() {
+            return this;
+        }
     });
 
     Command.extend = Skull.extend;
