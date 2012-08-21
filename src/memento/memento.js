@@ -1,6 +1,5 @@
-/*jslint vars: true, devel: true, browser: true*/
-/*global  _: false, Backbone: false, exports: false */
-
+/*global  _: false, Backbone: false*/
+//#Memento
 (function(global) {
     'use strict';
 
@@ -8,27 +7,30 @@
     //  using the existing one or creating a new object
     var Skull = global.Skull = global.Skull || {};
 
-    /*
-    *   Memento object is api support for creating Mementos for storing state
-    */
+    // Memento object is api support for creating Mementos for storing state.
+    //  You can pass in the originator and state to the constructor
     var Memento = Skull.Memento = function(options) {
-        var options    = options || {},
+        var opts       = options || {},
             originator = {},
             state      = {};
-        _.extend(this, options);
+        _.extend(this, opts);
     };
 
     _.extend(Memento.prototype, {
+        //Returns the originator object
         getOriginator: function() {
             return this.originator;
         },
+        //Sets the originator object
         setOriginator: function(originator) {
             this.originator = originator;
             return this;
         },
+        //Returns the state object
         getState: function() {
             return this.state;
         },
+        //Sets the state object
         setState: function(state) {
             this.state = state;
             return this;

@@ -6,7 +6,7 @@ module.exports = function(grunt) {
         },
         concat: {
             dist: {
-                src: ['<banner>', 'src/skull.js', 'src/observer/*.js', 'src/memento/*.js', 'src/command/*.js'],
+                src: ['<banner>', '<file_strip_banner:src/skull.js>', '<file_strip_banner:src/observer/eventmap.js>', '<file_strip_banner:src/memento/caretaker.js>', '<file_strip_banner:src/memento/originator.js>', '<file_strip_banner:src/memento/memento.js>', '<file_strip_banner:src/command/command.js>', '<file_strip_banner:src/command/commandmap.js>'],
                 dest: 'bin/skull.js'
             }
         },
@@ -21,8 +21,14 @@ module.exports = function(grunt) {
         },
         lint: {
             all: ['src/**/*.js']
+        },
+        docco: {
+            app: {
+                src: ['bin/skull.js']
+            }
         }
     });
 
-    grunt.registerTask('default',['qunit', 'concat', 'min']);
+    grunt.loadNpmTasks('grunt-docco');
+    grunt.registerTask('default', ['lint', 'qunit', 'concat', 'min', 'docco']);
 };

@@ -1,5 +1,4 @@
-/*jslint vars: true, devel: true, browser: true*/
-/*global  _: false, Backbone: false, exports: false */
+/*global  _: false, Backbone: false*/
 
 (function(global) {
     'use strict';

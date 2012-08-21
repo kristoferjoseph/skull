@@ -1,7 +1,7 @@
 module('Memento', {
     setup: function() {
         // setup for Memento
-        this.careTaker = new Skull.CareTaker();
+        this.careTaker = Skull.CareTaker;
     },
     teardown: function() {
         //teardown for Memento
