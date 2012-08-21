@@ -214,7 +214,7 @@
                     if (cmd.execute) {
                         eventMap.subscribe(e, cmd.execute);
                     } else {
-                        throw new Error("You must supply an execute method");
+                        throw new Error("No execute method found");
                     }
                     return this;
                 },

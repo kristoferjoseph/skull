@@ -18,6 +18,11 @@ module.exports = function(grunt) {
         },
         qunit: {
             all: ['test/*.html']
+        },
+        lint: {
+            all: ['src/**/*.js']
         }
     });
+
+    grunt.registerTask('default',['qunit', 'concat', 'min']);
 };
