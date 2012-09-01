@@ -30,7 +30,7 @@ test('Originator store method should trigger event', 1, function() {
         ok(true);
     };
     Skull.EventMap.subscribe("Memento:Store", handler);
-    this.originator.store();
+    this.originator.store({'title':'working'});
 });
 
 test('Should be able to override createMemento', 1, function() {
@@ -64,5 +64,61 @@ test('Should be able to override store method', 1, function() {
 
     var originator = new Originator();
     originator.store();
+});
+
+test('Memento should only store deltas', 1, function() {
+    var originator = new Skull.Originator();
+
+    var storeHash = {
+        "name":"Delta",
+        "age":"88",
+        "occupation":"stewardess"
+    };
+
+    var expectedHash = {
+        "name":"Delta"
+    };
+
+    originator.set({
+        "name":"Thomas",
+        "age":"88",
+        "occupation":"stewardess"
+    });
+
+    var deltaHandler = function(memento) {
+        deepEqual( memento.state, expectedHash, "Store should only store delta values" );
+    };
+
+    Skull.EventMap.subscribe("Memento:Store", deltaHandler);
+    originator.store(storeHash);
+    originator = null;
+});
+
+test('Memento should also set new values', 1, function() {
+    var originator = new Skull.Originator();
+
+    var storeHash = {
+        "name":"Delta",
+        "age":"88",
+        "occupation":"stewardess"
+    };
+
+    var expectedHash = {
+        "name":"Delta"
+    };
+
+    originator.set({
+        "name":"jimmy",
+        "age":"88",
+        "occupation":"stewardess"
+    });
+
+    var setHandler = function(memento) {
+        equal( originator.get('name'), 'Delta', "Store also set values" );
+    };
+
+    originator.on("change", setHandler);
+    originator.store(storeHash);
+    originator = null;
 });
 

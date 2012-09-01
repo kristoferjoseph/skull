@@ -20,7 +20,11 @@ module.exports = function(grunt) {
             all: ['test/*.html']
         },
         lint: {
-            all: ['src/**/*.js']
+            all: ['src/**/*.js','test/**/*.js']
+        },
+        watch: {
+            files: '<config:lint.all>',
+            tasks: 'qunit'
         },
         docco: {
             app: {
