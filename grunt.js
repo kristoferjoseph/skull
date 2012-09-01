@@ -20,7 +20,7 @@ module.exports = function(grunt) {
             all: ['test/*.html']
         },
         lint: {
-            all: ['src/**/*.js','test/**/*.js']
+            all: ['src/**/*.js','test/*.js','test/command/*.js','test/memento/*.js','test/observer/*.js']
         },
         watch: {
             files: '<config:lint.all>',
