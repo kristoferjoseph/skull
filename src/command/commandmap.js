@@ -1,12 +1,16 @@
-/*global  _: false, Backbone: false*/
+/*global  _: false, Backbone: false, exports: false*/
 //#CommandMap
 (function(global) {
     'use strict';
 
     //Define the Skull namespace by
     //  using the existing one or creating a new object
-    var Skull = global.Skull = global.Skull || {};
-
+    var Skull;
+    if (typeof exports !== 'undefined') {
+        Skull = exports;
+    } else {
+        Skull = global.Skull = global.Skull || {};
+    }
 
      //CommandMap is used to map commands to application events
     var CommandMap = Skull.CommandMap = function(eventMap) {
@@ -19,7 +23,7 @@
                 // Supply the event to trigger it.
                 addCommand: function(e, cmd) {
                     if (cmd.execute) {
-                        evtMap.subscribe(e, cmd.execute);
+                        evtMap.on(e, cmd.execute);
                     } else {
                         throw new Error("No execute method found");
                     }
@@ -27,7 +31,7 @@
                 },
                 //Remove a command from the command map
                 removeCommand: function(e, cmd) {
-                    evtMap.unsubscribe(e, cmd);
+                    evtMap.off(e, cmd);
                     return this;
                 }
             };

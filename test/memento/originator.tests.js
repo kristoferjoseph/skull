@@ -26,11 +26,13 @@ test('Originator should have store method', 1, function() {
 });
 
 test('Originator store method should trigger event', 1, function() {
+    var originator = new Skull.Originator();
     var handler = function() {
         ok(true);
     };
     Skull.EventMap.subscribe("Memento:Store", handler);
-    this.originator.store({'title':'working'});
+    originator.store({'title':'working'});
+    originator = null;
 });
 
 test('Should be able to override createMemento', 1, function() {
@@ -42,6 +44,7 @@ test('Should be able to override createMemento', 1, function() {
 
     var originator = new Originator();
     originator.createMemento();
+    originator = null;
 });
 
 test('Should be able to override setMemento', 1, function() {
@@ -53,6 +56,7 @@ test('Should be able to override setMemento', 1, function() {
 
     var originator = new Originator();
     originator.setMemento({});
+    originator = null;
 });
 
 test('Should be able to override store method', 1, function() {
@@ -64,6 +68,7 @@ test('Should be able to override store method', 1, function() {
 
     var originator = new Originator();
     originator.store();
+    originator = null;
 });
 
 test('Memento should only store deltas', 1, function() {
@@ -94,7 +99,7 @@ test('Memento should only store deltas', 1, function() {
     originator = null;
 });
 
-test('Memento should also set new values', 1, function() {
+test('Store should also set new values', 1, function() {
     var originator = new Skull.Originator();
 
     var storeHash = {
@@ -120,5 +125,18 @@ test('Memento should also set new values', 1, function() {
     originator.on("change", setHandler);
     originator.store(storeHash);
     originator = null;
+});
+
+test('Should be able to supply your own event map', 1, function() {
+    var eventMap = _.clone(Backbone.Events),
+        originator = new Skull.Originator({
+            'eventMap': eventMap
+        }),
+        storeHandler = function(memento) {
+            ok(false);
+        };
+
+    eventMap.on("Memento:Store", storeHandler);
+    originator.store({"stuff":"nonsense"});
 });
 

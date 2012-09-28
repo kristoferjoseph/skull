@@ -10,6 +10,7 @@
     //Originator object is a model with memento functionality
     var Originator = Skull.Originator = Backbone.Model.extend();
     _.extend(Originator.prototype, {
+        eventMap: Skull.EventMap,
         //Creates a memento object for storing state. Stores only the deltas.
         //  Override this function to supply your own serialization routine.
         createMemento: function(hash) {
@@ -35,8 +36,10 @@
         },
         //Creates a memento and sends it along with an event to be stored then calls set
         store: function(hash) {
+            //Checks to see if there is anything in the hash before doing any work
             if ( !_.isEmpty(hash) ) {
-                Skull.EventMap.publish("Memento:Store", this.createMemento(hash));
+                this.eventMap.on("Memento:Store", this.createMemento(hash));
+                //Calls set after storing the delta
                 this.set(hash);
             }
 

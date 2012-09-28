@@ -1,11 +1,16 @@
-/*global  _: false, Backbone: false*/
+/*global  _: false, Backbone: false, exports: false*/
 //#CareTaker
 (function(global) {
     'use strict';
 
     //Define the Skull namespace by
     //  using the existing one or creating a new object
-    var Skull = global.Skull = global.Skull || {};
+    var Skull;
+    if (typeof exports !== 'undefined') {
+        Skull = exports;
+    } else {
+        Skull = global.Skull = global.Skull || {};
+    }
 
     //CareTaker is used to manage the stacks of state
     var CareTaker = Skull.CareTaker = function() {

@@ -1,11 +1,16 @@
-/*global  _: false, Backbone: false*/
+/*global  _: false, Backbone: false, exports: false*/
 //#EventMap
 (function(global) {
     'use strict';
 
     //Define the Skull namespace by
     //  using the existing one or creating a new object
-    var Skull = global.Skull = global.Skull || {};
+    var Skull;
+    if (typeof exports !== 'undefined') {
+        Skull = exports;
+    } else {
+        Skull = global.Skull = global.Skull || {};
+    }
 
     //EventMap is used to dispatch application wide events.
     //  Clone of Backbone.Events with class level api exposed
