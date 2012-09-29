@@ -1,17 +1,23 @@
 // Skull.js 0.0.1-alpha
-// Build Date: 2012-08-20
+// Build Date: 2012-09-29
 
 // (c) 2012 Kristofer Joseph.
 // Skull may be freely distributed under the MIT license.
 // For all details and documentation:
 // http://www.skulljs.com
 
+//#Skull
 (function(global) {
     'use strict';
 
     //Define the Skull namespace by
     //  using the existing one or creating a new object
-    var Skull = global.Skull = global.Skull || {};
+    var Skull;
+    if (typeof exports !== 'undefined') {
+        Skull = exports;
+    } else {
+        Skull = global.Skull = global.Skull || {};
+    }
 
     //Hijack Backbone's extend method to use with Skull objects
     Skull.extend = Backbone.Model.extend;
@@ -24,7 +30,12 @@
 
     //Define the Skull namespace by
     //  using the existing one or creating a new object
-    var Skull = global.Skull = global.Skull || {};
+    var Skull;
+    if (typeof exports !== 'undefined') {
+        Skull = exports;
+    } else {
+        Skull = global.Skull = global.Skull || {};
+    }
 
     //EventMap is used to dispatch application wide events.
     //  Clone of Backbone.Events with class level api exposed
@@ -44,7 +55,12 @@
 
     //Define the Skull namespace by
     //  using the existing one or creating a new object
-    var Skull = global.Skull = global.Skull || {};
+    var Skull;
+    if (typeof exports !== 'undefined') {
+        Skull = exports;
+    } else {
+        Skull = global.Skull = global.Skull || {};
+    }
 
     //CareTaker is used to manage the stacks of state
     var CareTaker = Skull.CareTaker = function() {
@@ -93,24 +109,37 @@
 
     //Define the Skull namespace by
     //  using the existing one or creating a new object
-    var Skull = global.Skull = global.Skull || {};
+    var Skull;
+    if (typeof exports !== 'undefined') {
+        Skull = exports;
+    } else {
+        Skull = global.Skull = global.Skull || {};
+    }
 
     //Originator object is a model with memento functionality
-    var Originator = Skull.Originator = Backbone.Model.extend();
+    var Originator = Skull.Originator = Backbone.Model.extend({
+        initialize: function (options) {
+            if (options && options.eventMap) {
+                this.eventMap = options.eventMap;
+            } else {
+                this.eventMap = Skull.EventMap;
+            }
+        }
+    });
     _.extend(Originator.prototype, {
-        //Creates a memento object for storing state.
+        //Creates a memento object for storing state. Stores only the deltas.
         //  Override this function to supply your own serialization routine.
-        createMemento: function() {
+        createMemento: function (hash) {
             var memento = new Skull.Memento({
                 originator: this,
-                state: this.toJSON()
+                state: this.changedAttributes(hash)
             });
 
             return memento;
         },
-        //Sets a memento object to restor state.
+        //Sets a memento object to restore state.
         //  Override this function to supply your own way to restore state.
-        setMemento: function(memento) {
+        setMemento: function (memento) {
             var state = memento.state;
             if (this.set) {
                 this.set(state);
@@ -119,11 +148,18 @@
             } else {
                 throw new Error("You need to override setMemento to supply a way to set your state");
             }
+
             return this;
         },
-        //Creates a memento and sends it along with an event to be stored
-        store: function() {
-            Skull.EventMap.publish("Memento:Store", this.createMemento());
+        //Creates a memento and sends it along with an event to be stored then calls set
+        store: function (hash) {
+            //Checks to see if there is anything in the hash before doing any work
+            if ( !_.isEmpty(hash) ) {
+                this.eventMap.trigger("Memento:Store", this.createMemento(hash));
+                //Calls set after storing the delta
+                this.set(hash);
+            }
+
             return this;
         }
     });
@@ -138,7 +174,12 @@
 
     //Define the Skull namespace by
     //  using the existing one or creating a new object
-    var Skull = global.Skull = global.Skull || {};
+    var Skull;
+    if (typeof exports !== 'undefined') {
+        Skull = exports;
+    } else {
+        Skull = global.Skull = global.Skull || {};
+    }
 
     // Memento object is api support for creating Mementos for storing state.
     //  You can pass in the originator and state to the constructor
@@ -178,7 +219,12 @@
 
     //Define the Skull namespace by
     //  using the existing one or creating a new object
-    var Skull = global.Skull = global.Skull || {};
+    var Skull;
+    if (typeof exports !== 'undefined') {
+        Skull = exports;
+    } else {
+        Skull = global.Skull = global.Skull || {};
+    }
 
      //Command object instances are used to execute application commands
     var Command = Skull.Command = function() {};
@@ -200,8 +246,12 @@
 
     //Define the Skull namespace by
     //  using the existing one or creating a new object
-    var Skull = global.Skull = global.Skull || {};
-
+    var Skull;
+    if (typeof exports !== 'undefined') {
+        Skull = exports;
+    } else {
+        Skull = global.Skull = global.Skull || {};
+    }
 
      //CommandMap is used to map commands to application events
     var CommandMap = Skull.CommandMap = function(eventMap) {
@@ -214,7 +264,7 @@
                 // Supply the event to trigger it.
                 addCommand: function(e, cmd) {
                     if (cmd.execute) {
-                        evtMap.subscribe(e, cmd.execute);
+                        evtMap.on(e, cmd.execute);
                     } else {
                         throw new Error("No execute method found");
                     }
@@ -222,7 +272,7 @@
                 },
                 //Remove a command from the command map
                 removeCommand: function(e, cmd) {
-                    evtMap.unsubscribe(e, cmd);
+                    evtMap.off(e, cmd);
                     return this;
                 }
             };

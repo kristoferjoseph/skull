@@ -16,7 +16,7 @@
     var Originator = Skull.Originator = Backbone.Model.extend({
         initialize: function (options) {
             if (options && options.eventMap) {
-                this.eventMap = options.eventMap
+                this.eventMap = options.eventMap;
             } else {
                 this.eventMap = Skull.EventMap;
             }
