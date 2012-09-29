@@ -5,6 +5,7 @@ module('Memento', {
     },
     teardown: function() {
         //teardown for Memento
+        Skull.EventMap.unsubscribe();
         this.originator = null;
     }
 });
@@ -133,7 +134,7 @@ test('Should be able to supply your own event map', 1, function() {
             'eventMap': eventMap
         }),
         storeHandler = function(memento) {
-            ok(false);
+            ok(true);
         };
 
     eventMap.on("Memento:Store", storeHandler);
